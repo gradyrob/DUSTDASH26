@@ -4,9 +4,6 @@ import { T, calculateDuration } from "../shared";
 const WEEKDAY_SHORT = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const WEEKDAY_LONG = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
-const getPhotoJobId = (photo) => String(photo?.job_id ?? photo?.jobId ?? "");
-const getPhotoType = (photo) => (photo?.type === "after" ? "after" : "before");
-
 const isBreakJob = (job) => Boolean(job?.isBreak || job?.is_break);
 const getJobDate = (job) => String(job?.date || "");
 const getJobId = (job) => String(job?.id || "");
@@ -86,7 +83,6 @@ export default function CalendarTab({
   publishWeek,
   updateJob,
   showToast,
-  photos = [],
 }) {
   const [publishing, setPublishing] = useState(false);
   const [viewMode, setViewMode] = useState("week");
@@ -125,32 +121,6 @@ export default function CalendarTab({
   const weekUnassigned = weekJobs.filter((job) => getAssignedIds(job).length === 0).length;
   const unpublishedCount = weekJobs.filter((job) => !isPublishedJob(job)).length;
   const allPublished = weekJobs.length > 0 && unpublishedCount === 0;
-
-  const photoComplianceByJob = useMemo(() => {
-    const out = {};
-    (photos || []).forEach((photo) => {
-      const jobId = getPhotoJobId(photo);
-      if (!jobId) return;
-      if (!out[jobId]) out[jobId] = { before: 0, after: 0, total: 0 };
-      const type = getPhotoType(photo);
-      out[jobId][type] += 1;
-      out[jobId].total += 1;
-    });
-    return out;
-  }, [photos]);
-
-  const weekCompliance = useMemo(() => {
-    const checkable = weekJobs.filter((job) => (
-      String(getJobDate(job)) <= todayDate ||
-      isPublishedJob(job) ||
-      getJobStatus(job) === "completed"
-    ));
-
-    const missingBefore = checkable.filter((job) => (photoComplianceByJob[getJobId(job)]?.before || 0) === 0).length;
-    const missingAfter = checkable.filter((job) => (photoComplianceByJob[getJobId(job)]?.after || 0) === 0).length;
-
-    return { checkableCount: checkable.length, missingBefore, missingAfter };
-  }, [photoComplianceByJob, todayDate, weekJobs]);
 
   const visibleJobsForDate = (date) => {
     const dayJobs = jobsByDate[date] || [];
@@ -335,11 +305,6 @@ export default function CalendarTab({
             ))}
           </select>
 
-          {weekCompliance.checkableCount > 0 && (
-            <div style={{ fontSize: 12, color: T.textMuted }}>
-              Photo compliance: <span style={{ color: weekCompliance.missingBefore > 0 ? T.danger : T.primaryDark, fontWeight: 700 }}>Before missing {weekCompliance.missingBefore}</span> · <span style={{ color: weekCompliance.missingAfter > 0 ? T.danger : T.primaryDark, fontWeight: 700 }}>After missing {weekCompliance.missingAfter}</span>
-            </div>
-          )}
         </div>
       </div>
 
@@ -365,8 +330,6 @@ export default function CalendarTab({
                   <JobCard
                     job={job}
                     staffMembers={staffMembers}
-                    photoComplianceByJob={photoComplianceByJob}
-                    todayDate={todayDate}
                     onOpen={() => setEditingJob(job)}
                     onToggleStaff={(staffId) => handleStaffToggle(job.id, staffId)}
                   />
@@ -407,8 +370,6 @@ export default function CalendarTab({
                           job={job}
                           compact
                           staffMembers={staffMembers}
-                          photoComplianceByJob={photoComplianceByJob}
-                          todayDate={todayDate}
                           onOpen={() => setEditingJob(job)}
                           onToggleStaff={(staffId) => handleStaffToggle(job.id, staffId)}
                         />
@@ -541,16 +502,10 @@ export default function CalendarTab({
   );
 }
 
-function JobCard({ job, compact = false, staffMembers, photoComplianceByJob, todayDate, onOpen, onToggleStaff }) {
+function JobCard({ job, compact = false, staffMembers, onOpen, onToggleStaff }) {
   const assignedIds = getAssignedIds(job);
   const assignedNames = assignedIds.map((id) => staffMembers.find((s) => String(s.id) === id)?.full_name).filter(Boolean);
   const isPublished = isPublishedJob(job);
-  const photoState = photoComplianceByJob[getJobId(job)] || { before: 0, after: 0 };
-  const requiresPhotoCheck = (
-    String(getJobDate(job)) <= todayDate ||
-    isPublished ||
-    getJobStatus(job) === "completed"
-  );
 
   const badgeStyle = {
     display: "inline-flex",
@@ -581,16 +536,6 @@ function JobCard({ job, compact = false, staffMembers, photoComplianceByJob, tod
           <span style={{ ...badgeStyle, background: isPublished ? T.primaryLight : T.bg, color: isPublished ? T.primaryDark : T.textMuted }}>
             {isPublished ? "Published" : "Draft"}
           </span>
-          {requiresPhotoCheck && (
-            <>
-              <span style={{ ...badgeStyle, background: photoState.before > 0 ? T.primaryLight : T.dangerLight, color: photoState.before > 0 ? T.primaryDark : T.danger }}>
-                Before {photoState.before > 0 ? "✓" : "Missing"}
-              </span>
-              <span style={{ ...badgeStyle, background: photoState.after > 0 ? T.primaryLight : T.dangerLight, color: photoState.after > 0 ? T.primaryDark : T.danger }}>
-                After {photoState.after > 0 ? "✓" : "Missing"}
-              </span>
-            </>
-          )}
         </div>
 
         <div style={{ marginTop: 7, fontSize: 11, color: T.textMuted }}>

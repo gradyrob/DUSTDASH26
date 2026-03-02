@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boost Exterior Cleaning | Modern Website Upgrade Concept</title>
+  <meta name="description" content="A modern website upgrade concept for Boost Exterior Cleaning. Exterior house washing, driveway cleaning and sealing, soft washing, and commercial exterior cleaning across Brisbane, Logan, Gold Coast and Buderim.">
+  <meta name="theme-color" content="#0f766e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --ink:#03222d;
+      --ink-soft:#19414f;
+      --teal-700:#0f766e;
+      --teal-600:#0d9488;
+      --teal-500:#14b8a6;
+      --mint-200:#99f6e4;
+      --sky-100:#e0f2fe;
+      --slate-100:#e2e8f0;
+      --slate-200:#cbd5e1;
+      --slate-500:#64748b;
+      --white:#ffffff;
+      --cream:#fffdf7;
+      --sand:#fef3c7;
+      --orange:#ea580c;
+      --danger:#b91c1c;
+      --radius-sm:12px;
+      --radius-md:18px;
+      --radius-lg:24px;
+      --radius-xl:30px;
+      --shadow-sm:0 2px 8px rgba(2, 16, 25, .06);
+      --shadow-md:0 10px 25px rgba(3, 34, 45, .12);
+      --shadow-lg:0 18px 48px rgba(3, 34, 45, .18);
+      --container:1220px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:"Plus Jakarta Sans",system-ui,-apple-system,Segoe UI,sans-serif;
+      color:var(--ink-soft);
+      background:linear-gradient(180deg,#f8fcfb 0%,#f6fbff 40%,#ffffff 100%);
+      line-height:1.62;
+    }
+    h1,h2,h3,h4{
+      margin:0 0 .6rem;
+      font-family:"Syne","Plus Jakarta Sans",sans-serif;
+      color:var(--ink);
+      letter-spacing:-.02em;
+      line-height:1.08;
+    }
+    p{margin:0 0 1rem}
+    img{max-width:100%;display:block}
+    a{text-decoration:none;color:inherit}
+    .sr-only{
+      position:absolute!important;
+      width:1px!important;height:1px!important;
+      margin:-1px!important;padding:0!important;border:0!important;
+      clip:rect(0,0,0,0)!important;overflow:hidden!important;white-space:nowrap!important;
+    }
+    .skip-link{
+      position:absolute;left:1rem;top:-60px;
+      z-index:1000;background:var(--ink);color:var(--white);
+      padding:.75rem 1rem;border-radius:10px;font-weight:700;
+      transition:top .2s ease;
+    }
+    .skip-link:focus{top:1rem}
+    .container{
+      width:min(100% - 2.2rem, var(--container));
+      margin-inline:auto;
+    }
+
+    .badge{
+      display:inline-flex;gap:.55rem;align-items:center;
+      padding:.45rem .85rem;
+      border-radius:999px;
+      background:rgba(20, 184, 166, .12);
+      color:var(--teal-700);
+      font-weight:700;
+      font-size:.78rem;
+      letter-spacing:.05em;
+      text-transform:uppercase;
+    }
+    .dot{
+      width:7px;height:7px;border-radius:50%;
+      background:var(--teal-600);
+      box-shadow:0 0 0 6px rgba(13, 148, 136, .12);
+    }
+
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:.45rem;
+      border:none;border-radius:999px;cursor:pointer;
+      padding:.9rem 1.25rem;font-weight:700;font-size:.95rem;
+      transition:transform .25s ease, box-shadow .25s ease, background .25s ease;
+      white-space:nowrap;
+    }
+    .btn:focus-visible{outline:3px solid #86efac;outline-offset:2px}
+    .btn-primary{
+      color:var(--white);
+      background:linear-gradient(135deg,var(--teal-700),var(--teal-500));
+      box-shadow:0 8px 18px rgba(13, 148, 136, .35);
+    }
+    .btn-primary:hover{transform:translateY(-1px);box-shadow:0 14px 28px rgba(13, 148, 136, .38)}
+    .btn-ghost{
+      color:var(--ink);background:var(--white);
+      border:1px solid var(--slate-200);
+    }
+    .btn-ghost:hover{transform:translateY(-1px);box-shadow:var(--shadow-sm)}
+    .btn-alert{
+      color:var(--white);background:linear-gradient(135deg,#f97316,var(--orange));
+      box-shadow:0 8px 18px rgba(234, 88, 12, .35);
+    }
+
+    .site-top{
+      background:linear-gradient(90deg,#0f766e,#0369a1);
+      color:var(--white);
+      font-size:.83rem;
+      font-weight:600;
+      text-align:center;
+      padding:.55rem 1rem;
+    }
+
+    .site-nav{
+      position:sticky;top:0;z-index:99;
+      backdrop-filter:blur(14px) saturate(180%);
+      background:rgba(255,255,255,.9);
+      border-bottom:1px solid rgba(2, 16, 25, .08);
+    }
+    .nav-inner{
+      min-height:76px;
+      display:flex;align-items:center;justify-content:space-between;gap:1rem;
+    }
+    .brand{
+      display:flex;align-items:center;gap:.8rem;min-width:0;
+    }
+    .brand img{height:48px;width:auto}
+    .brand-text{
+      font-size:.85rem;font-weight:700;color:var(--slate-500);
+      text-transform:uppercase;letter-spacing:.08em;
+    }
+    .nav-links{
+      display:none;
+      list-style:none;
+      margin:0;padding:0;
+      gap:1.25rem;align-items:center;
+      font-weight:600;font-size:.94rem;color:#24414e;
+    }
+    .nav-links a{opacity:.86}
+    .nav-links a:hover{opacity:1;color:var(--teal-700)}
+    .nav-cta{display:none;gap:.55rem;align-items:center}
+
+    .menu-btn{
+      width:44px;height:44px;border-radius:12px;border:1px solid var(--slate-200);
+      background:var(--white);display:grid;place-items:center;cursor:pointer;
+    }
+    .menu-btn span{
+      width:18px;height:2px;background:var(--ink);display:block;position:relative;
+    }
+    .menu-btn span::before,.menu-btn span::after{
+      content:"";position:absolute;left:0;width:18px;height:2px;background:var(--ink);
+    }
+    .menu-btn span::before{top:-6px}
+    .menu-btn span::after{top:6px}
+
+    .mobile-menu{
+      position:fixed;inset:0;z-index:120;display:none;
+      background:rgba(3, 34, 45, .48);
+      backdrop-filter:blur(3px);
+    }
+    .mobile-menu.active{display:block}
+    .mobile-panel{
+      position:absolute;right:0;top:0;bottom:0;
+      width:min(360px,90vw);
+      background:var(--white);
+      padding:1.2rem 1.1rem 1.5rem;
+      display:flex;flex-direction:column;gap:.8rem;
+      box-shadow:var(--shadow-lg);
+    }
+    .mobile-close{
+      align-self:flex-end;
+      border:none;background:none;font-size:1.8rem;cursor:pointer;
+      color:var(--slate-500);line-height:1;
+    }
+    .mobile-links{
+      margin:0;padding:0;list-style:none;display:flex;flex-direction:column;
+    }
+    .mobile-links a{
+      display:block;padding:.85rem .35rem;
+      border-bottom:1px solid var(--slate-100);
+      font-weight:700;color:var(--ink);
+    }
+    .mobile-links a:last-child{border-bottom:none}
+    .mobile-cta{margin-top:auto;display:grid;gap:.6rem}
+
+    .hero{
+      position:relative;overflow:hidden;
+      padding:clamp(2.6rem,5vw,4.3rem) 0 clamp(2.4rem,4.5vw,4rem);
+    }
+    .hero::before{
+      content:"";
+      position:absolute;inset:0;
+      background:
+        radial-gradient(circle at 82% 14%, rgba(34,211,238,.15), transparent 36%),
+        radial-gradient(circle at 8% 76%, rgba(251,191,36,.12), transparent 34%);
+      pointer-events:none;
+    }
+    .hero-grid{
+      position:relative;z-index:2;
+      display:grid;gap:1.8rem;align-items:center;
+    }
+    .hero h1{
+      font-size:clamp(2rem,5vw,4rem);
+      max-width:14ch;
+    }
+    .hero p{
+      max-width:58ch;
+      font-size:clamp(.97rem,2vw,1.1rem);
+      color:#285162;
+      margin-bottom:1.4rem;
+    }
+    .hero-actions{
+      display:flex;flex-wrap:wrap;gap:.65rem;
+      margin-bottom:1rem;
+    }
+    .hero-points{
+      display:flex;flex-wrap:wrap;gap:.9rem 1.2rem;
+      color:#325a68;font-size:.9rem;font-weight:600;
+    }
+    .hero-points span{display:inline-flex;gap:.45rem;align-items:center}
+    .hero-points span::before{
+      content:"";
+      width:8px;height:8px;border-radius:50%;background:var(--teal-600);
+    }
+
+    .hero-media{
+      position:relative;
+      min-height:360px;
+      display:grid;
+      gap:.7rem;
+      grid-template-columns:1.08fr .92fr;
+    }
+    .hero-card{
+      border-radius:var(--radius-lg);
+      overflow:hidden;
+      border:1px solid rgba(3, 34, 45, .12);
+      box-shadow:var(--shadow-md);
+      background:var(--white);
+    }
+    .hero-card img{
+      width:100%;height:100%;object-fit:cover;
+    }
+    .hero-stack{display:grid;gap:.7rem}
+    .hero-stats{
+      position:absolute;left:.8rem;bottom:.8rem;
+      background:rgba(3,34,45,.9);color:var(--white);
+      border-radius:14px;padding:.7rem .9rem;
+      display:flex;gap:.9rem;align-items:center;
+      box-shadow:var(--shadow-md);
+    }
+    .hero-stats b{display:block;font-size:1.06rem}
+    .hero-stats small{opacity:.78}
+
+    .quick-stats{
+      margin-top:1.4rem;
+      display:grid;gap:.8rem;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+    .stat-card{
+      background:var(--white);
+      border:1px solid var(--slate-100);
+      border-radius:var(--radius-md);
+      padding:1rem .95rem;
+      box-shadow:var(--shadow-sm);
+    }
+    .stat-card h3{
+      font-size:1.5rem;
+      color:var(--teal-700);
+    }
+    .stat-card p{
+      margin:0;
+      color:#486574;
+      font-size:.9rem;
+    }
+
+    section{
+      padding:clamp(2.8rem,7vw,5.1rem) 0;
+    }
+    .section-head{
+      max-width:760px;
+      margin:0 auto 1.8rem;
+      text-align:center;
+    }
+    .section-head h2{font-size:clamp(1.65rem,3.4vw,2.7rem)}
+    .section-head p{color:#3b5a69}
+
+    .services-grid{
+      display:grid;gap:1rem;
+      grid-template-columns:repeat(auto-fit,minmax(245px,1fr));
+    }
+    .service{
+      border-radius:var(--radius-md);
+      border:1px solid var(--slate-100);
+      background:var(--white);
+      overflow:hidden;
+      box-shadow:var(--shadow-sm);
+      transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    }
+    .service:hover{
+      transform:translateY(-3px);
+      border-color:#7dd3fc;
+      box-shadow:var(--shadow-md);
+    }
+    .service-cover{
+      aspect-ratio:16/10;
+      overflow:hidden;
+    }
+    .service-cover img{
+      width:100%;height:100%;object-fit:cover;
+      transition:transform .45s ease;
+    }
+    .service:hover .service-cover img{transform:scale(1.05)}
+    .service-body{padding:1rem .95rem 1.05rem}
+    .service h3{font-size:1.16rem}
+    .service p{margin:0;color:#476473;font-size:.92rem}
+
+    .band{
+      background:linear-gradient(135deg,#083344,#0f766e);
+      color:var(--white);
+      border-radius:var(--radius-xl);
+      padding:1.5rem;
+      box-shadow:var(--shadow-lg);
+      display:grid;
+      gap:1.2rem;
+    }
+    .band h3{
+      color:var(--white);
+      font-size:clamp(1.4rem,2.6vw,2rem);
+      max-width:20ch;
+    }
+    .band p{margin:0;color:rgba(255,255,255,.82)}
+    .band ul{
+      margin:.25rem 0 0;padding:0;list-style:none;
+      display:grid;gap:.55rem;
+    }
+    .band li{
+      display:flex;gap:.55rem;align-items:flex-start;
+      font-weight:600;
+    }
+    .band li::before{
+      content:"";
+      width:10px;height:10px;border-radius:50%;
+      margin-top:.42rem;
+      background:var(--mint-200);
+      flex:0 0 auto;
+    }
+    .band .actions{display:flex;flex-wrap:wrap;gap:.65rem}
+
+    .split{
+      display:grid;gap:1.3rem;align-items:start;
+    }
+    .cards{
+      display:grid;gap:.8rem;
+    }
+    .mini{
+      padding:1rem;border-radius:15px;
+      background:var(--white);
+      border:1px solid var(--slate-100);
+      box-shadow:var(--shadow-sm);
+    }
+    .mini h4{font-size:1.06rem;margin-bottom:.35rem}
+    .mini p{margin:0;color:#4b6777;font-size:.9rem}
+
+    .process{
+      background:
+        linear-gradient(180deg,#edfbf8 0%,#f6fbff 100%);
+      border-top:1px solid #d9f5ef;
+      border-bottom:1px solid #e3f2fd;
+    }
+    .steps{
+      display:grid;gap:1rem;
+      grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+    }
+    .step{
+      background:var(--white);
+      border:1px solid #cffafe;
+      border-radius:16px;
+      padding:1rem .95rem;
+      box-shadow:var(--shadow-sm);
+      position:relative;
+    }
+    .step .num{
+      width:34px;height:34px;border-radius:50%;
+      display:grid;place-items:center;
+      background:linear-gradient(135deg,var(--teal-700),var(--teal-500));
+      color:var(--white);font-weight:800;font-family:"Syne",sans-serif;
+      margin-bottom:.55rem;
+    }
+    .step h4{margin-bottom:.3rem;font-size:1.03rem}
+    .step p{margin:0;color:#3f6171;font-size:.9rem}
+
+    .gallery{
+      display:grid;gap:.8rem;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+    .gallery figure{
+      margin:0;border-radius:16px;overflow:hidden;
+      border:1px solid var(--slate-100);
+      box-shadow:var(--shadow-sm);background:var(--white);
+    }
+    .gallery img{width:100%;aspect-ratio:16/10;object-fit:cover}
+    .gallery figcaption{
+      padding:.6rem .7rem;color:#486473;font-size:.82rem;font-weight:600;
+    }
+
+    .quote-contact{
+      display:grid;gap:1rem;
+    }
+    .contact-card{
+      background:var(--ink);
+      color:rgba(255,255,255,.88);
+      border-radius:20px;
+      padding:1.2rem 1rem;
+      position:relative;
+      overflow:hidden;
+    }
+    .contact-card::before{
+      content:"";
+      position:absolute;right:-60px;top:-90px;
+      width:220px;height:220px;border-radius:50%;
+      background:radial-gradient(circle,rgba(52,211,153,.35),transparent 65%);
+    }
+    .contact-card h3{color:var(--white);font-size:1.35rem}
+    .contact-links{
+      display:grid;gap:.55rem;margin-top:.85rem;
+    }
+    .contact-links a{
+      display:flex;justify-content:space-between;align-items:center;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:12px;padding:.68rem .78rem;
+      font-weight:700;
+    }
+    .contact-links a:hover{background:rgba(255,255,255,.15)}
+    .areas{
+      margin-top:.9rem;
+      display:flex;flex-wrap:wrap;gap:.45rem;
+    }
+    .areas span{
+      background:rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.2);
+      padding:.3rem .55rem;border-radius:999px;
+      font-size:.77rem;font-weight:700;color:rgba(255,255,255,.93);
+    }
+    .quote-form{
+      background:var(--white);
+      border:1px solid var(--slate-100);
+      border-radius:20px;
+      padding:1.1rem .95rem;
+      box-shadow:var(--shadow-sm);
+    }
+    .quote-form h3{font-size:1.36rem}
+    .quote-form p{color:#496777}
+    .form-grid{
+      display:grid;gap:.7rem;
+      grid-template-columns:1fr;
+    }
+    .field{display:grid;gap:.34rem}
+    .field label{
+      font-weight:700;
+      font-size:.84rem;color:#345565;
+    }
+    .field input,.field select,.field textarea{
+      width:100%;
+      border:1.5px solid #dbe6ee;
+      border-radius:12px;
+      padding:.78rem .82rem;
+      font:inherit;color:var(--ink);
+      background:#fcfeff;
+      transition:border-color .2s ease, box-shadow .2s ease;
+    }
+    .field textarea{min-height:100px;resize:vertical}
+    .field input:focus,.field select:focus,.field textarea:focus{
+      outline:none;border-color:#38bdf8;box-shadow:0 0 0 4px rgba(56, 189, 248, .14);
+    }
+    .form-actions{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:.4rem}
+    .note{
+      margin-top:.7rem;
+      font-size:.8rem;color:#64748b;
+    }
+
+    .testimonials{
+      background:linear-gradient(180deg,#ffffff 0%,#f8fcff 100%);
+    }
+    .review-grid{
+      display:grid;gap:.85rem;
+      grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    }
+    .review{
+      border:1px solid #e6edf3;
+      background:#fff;
+      border-radius:14px;
+      padding:1rem .9rem;
+      box-shadow:var(--shadow-sm);
+    }
+    .stars{color:#f59e0b;letter-spacing:2px;font-size:.88rem;margin-bottom:.45rem}
+    .review p{margin:0 0 .75rem;color:#385766;font-size:.92rem}
+    .review b{font-size:.89rem;color:#1b3f4d}
+    .review small{display:block;color:#6b8593}
+
+    .footer{
+      background:#021922;
+      color:rgba(255,255,255,.68);
+      padding:2.2rem 0 1.1rem;
+    }
+    .footer-grid{
+      display:grid;gap:1.3rem;
+    }
+    .footer h4{
+      color:#e2f6ff;font-size:1rem;margin-bottom:.5rem;
+      font-family:"Plus Jakarta Sans",sans-serif;letter-spacing:0;
+    }
+    .footer ul{list-style:none;margin:0;padding:0;display:grid;gap:.4rem}
+    .footer a:hover{color:#9ae6f2}
+    .footer-bottom{
+      margin-top:1.5rem;
+      border-top:1px solid rgba(255,255,255,.12);
+      padding-top:.85rem;
+      font-size:.8rem;
+      display:flex;justify-content:space-between;gap:.5rem;flex-wrap:wrap;
+    }
+
+    .mobile-sticky{
+      position:fixed;left:0;right:0;bottom:0;z-index:80;
+      background:rgba(255,255,255,.97);
+      border-top:1px solid #e2e8f0;
+      backdrop-filter:blur(10px);
+      display:flex;gap:.5rem;padding:.56rem .65rem;
+    }
+    .mobile-sticky .btn{flex:1;padding:.75rem .8rem;font-size:.88rem}
+
+    @media (min-width: 760px){
+      .hero-grid{grid-template-columns:1.1fr .9fr;gap:2rem}
+      .quick-stats{grid-template-columns:repeat(4,minmax(0,1fr))}
+      .band{grid-template-columns:1fr auto;align-items:center;padding:1.8rem}
+      .split{grid-template-columns:1fr 1fr}
+      .quote-contact{grid-template-columns:.88fr 1.12fr}
+      .form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .field.full{grid-column:1/-1}
+      .footer-grid{grid-template-columns:1.2fr .8fr .8fr .8fr}
+    }
+    @media (min-width: 1040px){
+      .nav-links{display:flex}
+      .nav-cta{display:flex}
+      .menu-btn{display:none}
+      .mobile-sticky{display:none}
+    }
+    @media (max-width: 1039px){
+      body{padding-bottom:70px}
+    }
+    @media (prefers-reduced-motion: reduce){
+      html{scroll-behavior:auto}
+      *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <div class="site-top">Modern website upgrade concept for Boost Exterior Cleaning | Local specialist across SE QLD</div>
+
+  <header class="site-nav" id="top">
+    <div class="container nav-inner">
+      <a class="brand" href="#top" aria-label="Boost Exterior Cleaning">
+        <img src="https://boostexteriorcleaning.com.au/wp-content/uploads/2020/02/Boost-Exterior-cleaning-logo.png" alt="Boost Exterior Cleaning logo" width="300" height="196" loading="eager" fetchpriority="high">
+        <span class="brand-text">Exterior Cleaning</span>
+      </a>
+
+      <ul class="nav-links" aria-label="Primary">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#process">Soft Wash Process</a></li>
+        <li><a href="#results">Results</a></li>
+        <li><a href="#reviews">Reviews</a></li>
+        <li><a href="#quote">Get Quote</a></li>
+      </ul>
+
+      <div class="nav-cta">
+        <a class="btn btn-ghost" href="tel:1300609973">1300 609 973</a>
+        <a class="btn btn-primary" href="#quote">Free Quote</a>
+      </div>
+
+      <button class="menu-btn" id="menuOpen" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="menuTitle">
+    <div class="mobile-panel">
+      <h2 id="menuTitle" class="sr-only">Menu</h2>
+      <button class="mobile-close" id="menuClose" aria-label="Close menu">×</button>
+      <ul class="mobile-links">
+        <li><a href="#services" class="mobile-link">Services</a></li>
+        <li><a href="#process" class="mobile-link">Soft Wash Process</a></li>
+        <li><a href="#results" class="mobile-link">Results</a></li>
+        <li><a href="#reviews" class="mobile-link">Reviews</a></li>
+        <li><a href="#quote" class="mobile-link">Get Quote</a></li>
+      </ul>
+      <div class="mobile-cta">
+        <a class="btn btn-alert" href="tel:1300609973">Call 1300 609 973</a>
+        <a class="btn btn-primary mobile-link" href="#quote">Request Call Back</a>
+      </div>
+    </div>
+  </div>
+
+  <main id="main">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <span class="badge"><span class="dot"></span> Local Exterior Cleaning Specialist</span>
+          <h1>Brisbane Exterior Cleaning, Reimagined For 2026</h1>
+          <p>Boost Exterior Cleaning delivers gentle soft washing and precision pressure cleaning for homes, schools, and commercial properties across Brisbane, Logan, Gold Coast and Buderim.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#quote">Get a Free Quote</a>
+            <a class="btn btn-ghost" href="tel:1300609973">Call 1300 609 973</a>
+          </div>
+          <div class="hero-points">
+            <span>Soft wash experts</span>
+            <span>Residential and commercial</span>
+            <span>Package deals available</span>
+            <span>Driveway sealing options</span>
+          </div>
+        </div>
+
+        <div class="hero-media" aria-label="Cleaning project highlights">
+          <div class="hero-card">
+            <img src="https://boostexteriorcleaning.com.au/wp-content/uploads/2025/08/Exterior-House-Washing-in-Brisbane-2.jpg" alt="Exterior house washing in Brisbane" loading="eager" fetchpriority="high" decoding="async">
+          </div>
+          <div class="hero-stack">
+            <div class="hero-card">
+              <img src="https://boostexteriorcleaning.com.au/wp-content/uploads/2021/10/Cleaning-Project-4-980x588.jpg" alt="Concrete and path pressure cleaning result" loading="lazy" decoding="async">
+            </div>
+            <div class="hero-card">
+              <img src="https://boostexteriorcleaning.com.au/wp-content/uploads/2021/10/Cleaning-Project-St-Elizabeths-Catholic-Primary-School-980x588.jpg" alt="School exterior cleaning project" loading="lazy" decoding="async">
+            </div>
+          </div>
+          <div class="hero-stats">
+            <div><b>1300 609 973</b><small>Fast local response</small></div>
+            <div><b>SE QLD</b><small>Brisbane to Gold Coast</small></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container quick-stats" aria-label="Business highlights">
+        <article class="stat-card"><h3>Soft Wash</h3><p>Low pressure, deep clean without surface damage.</p></article>
+        <article class="stat-card"><h3>Package Deals</h3><p>Choose 2+ services and unlock bundled pricing.</p></article>
+        <article class="stat-card"><h3>Residential</h3><p>Homes, driveways, decks, fences and pool areas.</p></article>
+        <article class="stat-card"><h3>Commercial</h3><p>Retail, offices, schools, pathways and parking lots.</p></article>
+      </div>
+    </section>
+
+    <section id="services">
+      <div class="container">
+        <div class="section-head">
+          <span class="badge">Our Services</span>
+          <h2>Complete Exterior Cleaning Services</h2>
+          <p>No job is too big or too small. We use the right pressure, the right equipment, and the right chemistry to clean effectively while protecting your surfaces.</p>
+        </div>
+
+        <div class="services-grid">
+          <article class="service">
+            <div class="service-cover"><img src="https://boostexteriorcleaning.com.au/wp-content/uploads/2021/10/residential.jpg" alt="Residential house washing"></div>
+            <div class="service-body">
+              <h3>House Washing</h3>
+              <p>Gentle removal of mould, algae, pollution and buildup to restore street appeal and protect paintwork.</p>
+            </div>
+          </article>
+          <article class="service">
+            <div class="service-cover"><img src="https://boostexteriorcleaning.com.au/wp-content/uploads/2021/10/Cleaning-Project-2-980x588.jpg" alt="Driveway pressure cleaning"></div>
+            <div class="service-body">
+              <h3>Driveway Cleaning &amp; Sealing</h3>
+              <p>High-pressure restoration plus optional two-coat sealing to lock in the finish and improve slip resistance.</p>
+            </div>
+          </article>
+          <article class="service">
+            <div class="service-cover"><img src="https://boostexteriorcleaning.com.au/wp-content/uploads/2021/10/Cleaning-Project-6-980x588.jpg" alt="Natural stone and paver cleaning"></div>
+            <div class="service-body">
+              <h3>Stone Tile &amp; Paver Care</h3>
+              <p>Professional cleaning and penetrating sealer application to prevent staining without changing the natural look.</p>
+            </div>
+          </article>
+          <article class="service">
+            <div class="service-cover"><img src="https://boostexteriorcleaning.com.au/wp-content/uploads/2021/10/commercial.jpg" alt="Commercial exterior cleaning"></div>
+            <div class="service-body">
+              <h3>Commercial Exterior Cleaning</h3>
+              <p>Retail fronts, offices, unit blocks, walkways and parking lots cleaned to a professional standard.</p>
+            </div>
+          </article>
+          <article class="service">
+            <div class="service-cover"><img src="https://boostexteriorcleaning.com.au/wp-content/uploads/2021/10/Cleaning-Project-St-Elizabeths-Catholic-Primary-School-980x588.jpg" alt="School cleaning project"></div>
+            <div class="service-body">
+              <h3>School and High-Touch Area Cleaning</h3>
+              <p>Concrete surfaces, school buildings and playground areas cleaned with methods suited to each surface.</p>
+            </div>
+          </article>
+          <article class="service">
+            <div class="service-cover"><img src="https://boostexteriorcleaning.com.au/wp-content/uploads/2025/08/Boost-Exteriors-team-1024x437.jpg" alt="Boost Exterior Cleaning team"></div>
+            <div class="service-body">
+              <h3>Property-Wide Package Deals</h3>
+              <p>Combine services around your property and get better value with Boost multi-service package pricing.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="band">
+          <div>
+            <h3>Use Two Or More Services And Get A Better Package Deal</h3>
+            <p>Boost can bundle your house wash, driveway clean, fence, deck, pathways and more into one coordinated service plan.</p>
+            <ul>
+              <li>One visit, multiple results around your property.</li>
+              <li>Cleaner finish and stronger long-term maintenance value.</li>
+              <li>Quote options tailored to your budget and priorities.</li>
+            </ul>
+          </div>
+          <div class="actions">
+            <a class="btn btn-alert" href="#quote">Build My Package</a>
+            <a class="btn btn-ghost" href="tel:1300609973">Talk To Glen</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="process" id="process">
+      <div class="container">
+        <div class="section-head">
+          <span class="badge">Soft Wash System</span>
+          <h2>The Boost Exterior Cleaning Method</h2>
+          <p>Soft washing uses low pressure and specialised solutions to kill and remove mould, algae and organic staining at the source, not just the surface layer.</p>
+        </div>
+        <div class="steps">
+          <article class="step">
+            <div class="num">1</div>
+            <h4>Inspect &amp; Assess</h4>
+            <p>We identify material types, staining severity and select the right pressure and chemistry mix for each area.</p>
+          </article>
+          <article class="step">
+            <div class="num">2</div>
+            <h4>Pre-Treat Surface</h4>
+            <p>Specialist biodegradable solutions are applied to break down mould, algae and grime before rinsing.</p>
+          </article>
+          <article class="step">
+            <div class="num">3</div>
+            <h4>Controlled Wash</h4>
+            <p>Low-pressure soft wash or high-pressure rotary cleaning is used based on the surface and contamination level.</p>
+          </article>
+          <article class="step">
+            <div class="num">4</div>
+            <h4>Protect &amp; Finish</h4>
+            <p>Optional sealing and final detailing help keep surfaces cleaner for longer and improve long-term results.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="results">
+      <div class="container split">
+        <div>
+          <span class="badge">Recent Results</span>
+          <h2>Real Project Outcomes</h2>
+          <p>From heavily weathered Queensland homes to school facilities and commercial frontage, Boost delivers visible transformation and long-lasting value.</p>
+          <div class="cards">
+            <article class="mini">
+              <h4>Great For Property Value</h4>
+              <p>Regular exterior cleaning protects paint and surfaces while improving first impressions and street appeal.</p>
+            </article>
+            <article class="mini">
+              <h4>Safe On Sensitive Surfaces</h4>
+              <p>Soft wash avoids damage risk on painted exteriors, cladding and delicate materials.</p>
+            </article>
+            <article class="mini">
+              <h4>SE QLD Coverage</h4>
+              <p>Services available across Brisbane, Logan, Gold Coast and Buderim with local owner-operator support.</p>
+            </article>
+          </div>
+        </div>
+        <div class="gallery">
+          <figure>
+            <img src="https://boostexteriorcleaning.com.au/wp-content/uploads/2021/10/Cleaning-Project-1-980x588.jpg" alt="Exterior clean before and after style result 1" loading="lazy">
+            <figcaption>House exterior refresh</figcaption>
+          </figure>
+          <figure>
+            <img src="https://boostexteriorcleaning.com.au/wp-content/uploads/2021/10/Cleaning-Project-5-980x588.jpg" alt="Driveway and concrete pressure cleaning result" loading="lazy">
+            <figcaption>Driveway and path restoration</figcaption>
+          </figure>
+          <figure>
+            <img src="https://boostexteriorcleaning.com.au/wp-content/uploads/2021/10/Cleaning-Project-3-980x588.jpg" alt="Residential wash result 2" loading="lazy">
+            <figcaption>Residential mould removal</figcaption>
+          </figure>
+          <figure>
+            <img src="https://boostexteriorcleaning.com.au/wp-content/uploads/2021/10/Cleaning-Project-7-980x588.jpg" alt="Commercial cleaning project result" loading="lazy">
+            <figcaption>Commercial frontage clean</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="testimonials" id="reviews">
+      <div class="container">
+        <div class="section-head">
+          <span class="badge">Testimonials</span>
+          <h2>What Clients Say About Boost</h2>
+          <p>Consistent feedback highlights Glen’s communication, reliability and the visible quality of completed cleaning work.</p>
+        </div>
+        <div class="review-grid">
+          <article class="review">
+            <div class="stars">★★★★★</div>
+            <p>"Amazing clean on my very dirty Queenslander. House and paved areas have never looked so good."</p>
+            <b>Homeowner</b>
+            <small>Brisbane</small>
+          </article>
+          <article class="review">
+            <div class="stars">★★★★★</div>
+            <p>"From first call to completion, service was A1. House clean and fence clean came up like brand new."</p>
+            <b>Residential Client</b>
+            <small>Logan</small>
+          </article>
+          <article class="review">
+            <div class="stars">★★★★★</div>
+            <p>"Professional, responsive and excellent value for money. Our home has never looked better."</p>
+            <b>Residential Client</b>
+            <small>Gold Coast</small>
+          </article>
+          <article class="review">
+            <div class="stars">★★★★★</div>
+            <p>"Great communication, on time, and a fantastic finish. We highly recommend Boost Exterior Cleaning."</p>
+            <b>Residential Client</b>
+            <small>Buderim</small>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="quote">
+      <div class="container quote-contact">
+        <aside class="contact-card">
+          <span class="badge" style="background:rgba(255,255,255,.15);color:#d1fae5">Get In Touch</span>
+          <h3>Request Your Free Quote</h3>
+          <p>Tell us what you need cleaned and we will call you back to quote over the phone or after site inspection.</p>
+          <div class="contact-links">
+            <a href="tel:1300609973"><span>Call Boost</span><strong>1300 609 973</strong></a>
+            <a href="mailto:glen@boostexteriorcleaning.com.au"><span>Email</span><strong>glen@boostexteriorcleaning.com.au</strong></a>
+            <a href="https://boostexteriorcleaning.com.au/contact-us/" target="_blank" rel="noopener noreferrer"><span>Original Contact Page</span><strong>Open</strong></a>
+          </div>
+          <div class="areas" aria-label="Service areas">
+            <span>Brisbane</span>
+            <span>Logan</span>
+            <span>Gold Coast</span>
+            <span>Buderim</span>
+            <span>SE Queensland</span>
+          </div>
+        </aside>
+
+        <div class="quote-form">
+          <h3>Quote Request Form</h3>
+          <p>Designed as an upgraded lead form experience for desktop and mobile users.</p>
+          <form action="https://boostexteriorcleaning.com.au/contact-us/" method="get">
+            <input type="hidden" name="source" value="modern-redesign-concept">
+            <div class="form-grid">
+              <div class="field">
+                <label for="name">Full Name</label>
+                <input id="name" name="full_name" type="text" autocomplete="name" placeholder="Your full name" required>
+              </div>
+              <div class="field">
+                <label for="phone">Phone</label>
+                <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" pattern="[0-9+()\\s-]{8,}" placeholder="1300 609 973 or mobile" required>
+              </div>
+              <div class="field">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+              </div>
+              <div class="field">
+                <label for="suburb">Suburb / Area</label>
+                <input id="suburb" name="suburb" type="text" autocomplete="address-level2" placeholder="e.g. Tarragindi">
+              </div>
+              <div class="field">
+                <label for="type">Property Type</label>
+                <select id="type" name="property_type" required>
+                  <option value="">Select property type</option>
+                  <option value="Residential">Residential</option>
+                  <option value="Commercial">Commercial</option>
+                  <option value="School">School</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="service">Service Needed</label>
+                <select id="service" name="service_needed" required>
+                  <option value="">Select service</option>
+                  <option value="House Washing">House Washing</option>
+                  <option value="Pressure Cleaning">Pressure Cleaning</option>
+                  <option value="Driveway Cleaning and Sealing">Driveway Cleaning and Sealing</option>
+                  <option value="Stone Tile and Paver Cleaning">Stone Tile and Paver Cleaning</option>
+                  <option value="Commercial Exterior Cleaning">Commercial Exterior Cleaning</option>
+                  <option value="Package Deal">Package Deal</option>
+                </select>
+              </div>
+              <div class="field full">
+                <label for="message">Job Details</label>
+                <textarea id="message" name="message" placeholder="Tell us what areas need cleaning and any access details..." required></textarea>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">Submit Quote Request</button>
+              <a class="btn btn-ghost" href="https://boostexteriorcleaning.com.au/about-us/" target="_blank" rel="noopener noreferrer">Learn More</a>
+            </div>
+            <p class="note">This concept form posts to the existing contact workflow so the redesign can be demoed immediately.</p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <img src="https://boostexteriorcleaning.com.au/wp-content/uploads/2020/02/Boost-Exterior-cleaning-logo-300x196.png" alt="Boost Exterior Cleaning logo" width="160" height="104" loading="lazy">
+          <p style="margin-top:.6rem;max-width:42ch">Boost Exterior Cleaning is a locally owned exterior cleaning business delivering soft wash and pressure cleaning services across SE QLD.</p>
+        </div>
+        <div>
+          <h4>Core Services</h4>
+          <ul>
+            <li><a href="#services">Exterior House Washing</a></li>
+            <li><a href="#services">Driveway Cleaning &amp; Sealing</a></li>
+            <li><a href="#services">Commercial Cleaning</a></li>
+            <li><a href="#process">Soft Wash System</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Service Areas</h4>
+          <ul>
+            <li><a href="https://boostexteriorcleaning.com.au/boost-locations-across-se-qld/" target="_blank" rel="noopener noreferrer">Brisbane</a></li>
+            <li><a href="https://boostexteriorcleaning.com.au/boost-locations-across-se-qld/" target="_blank" rel="noopener noreferrer">Logan</a></li>
+            <li><a href="https://boostexteriorcleaning.com.au/boost-locations-across-se-qld/" target="_blank" rel="noopener noreferrer">Gold Coast</a></li>
+            <li><a href="https://boostexteriorcleaning.com.au/boost-locations-across-se-qld/" target="_blank" rel="noopener noreferrer">Buderim</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="tel:1300609973">1300 609 973</a></li>
+            <li><a href="mailto:glen@boostexteriorcleaning.com.au">glen@boostexteriorcleaning.com.au</a></li>
+            <li><a href="https://boostexteriorcleaning.com.au/contact-us/" target="_blank" rel="noopener noreferrer">Contact Page</a></li>
+            <li><a href="https://boostexteriorcleaning.com.au/franchise/" target="_blank" rel="noopener noreferrer">Franchise</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Boost Exterior Cleaning. Redesign concept for website upgrade.</span>
+        <span>Built to showcase a modern, mobile-first user experience.</span>
+      </div>
+    </div>
+  </footer>
+
+  <div class="mobile-sticky" aria-label="Quick actions">
+    <a class="btn btn-alert" href="tel:1300609973">Call Now</a>
+    <a class="btn btn-primary" href="#quote">Get Quote</a>
+  </div>
+
+  <script>
+    (function(){
+      "use strict";
+
+      var menu = document.getElementById("mobileMenu");
+      var openBtn = document.getElementById("menuOpen");
+      var closeBtn = document.getElementById("menuClose");
+      var lastFocused = null;
+
+      function openMenu(){
+        if(!menu || !openBtn) return;
+        lastFocused = document.activeElement;
+        menu.classList.add("active");
+        menu.setAttribute("aria-hidden","false");
+        openBtn.setAttribute("aria-expanded","true");
+        document.body.style.overflow = "hidden";
+        if(closeBtn) closeBtn.focus();
+      }
+
+      function closeMenu(restoreFocus){
+        if(!menu || !openBtn) return;
+        menu.classList.remove("active");
+        menu.setAttribute("aria-hidden","true");
+        openBtn.setAttribute("aria-expanded","false");
+        document.body.style.overflow = "";
+        if(restoreFocus && lastFocused && typeof lastFocused.focus === "function"){
+          lastFocused.focus();
+        }
+      }
+
+      if(openBtn) openBtn.addEventListener("click", openMenu);
+      if(closeBtn) closeBtn.addEventListener("click", function(){ closeMenu(true); });
+      if(menu){
+        menu.addEventListener("click", function(e){
+          if(e.target === menu) closeMenu(false);
+        });
+      }
+      document.querySelectorAll(".mobile-link").forEach(function(link){
+        link.addEventListener("click", function(){ closeMenu(false); });
+      });
+
+      document.addEventListener("keydown", function(e){
+        if(e.key === "Escape" && menu && menu.classList.contains("active")){
+          closeMenu(true);
+        }
+      });
+
+      var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      document.querySelectorAll("a[href^='#']").forEach(function(link){
+        link.addEventListener("click", function(e){
+          var id = this.getAttribute("href");
+          if(!id || id === "#") return;
+          var target = document.querySelector(id);
+          if(!target) return;
+          e.preventDefault();
+          window.scrollTo({
+            top: target.getBoundingClientRect().top + window.scrollY - 74,
+            behavior: reduced ? "auto" : "smooth"
+          });
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
