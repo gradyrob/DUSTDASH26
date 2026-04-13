@@ -1,154 +1,92 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-// Warm earthy palette — neutral, refined, coastal
+// ─── Palette ──────────────────────────────────────────────────────────────────
 const C = {
-  bg:       '#F8F5F0',       // warm linen
-  bgDeep:   '#F0EBE3',       // slightly deeper linen
-  card:     '#FFFFFF',
-  dark:     '#1C1917',       // near-black warm
-  text:     '#3D3530',       // warm dark brown
-  muted:    '#9C8E84',       // warm taupe
-  subtle:   '#C9BEB6',       // light warm grey
-  border:   '#E8E2DA',       // warm border
-  stone:    '#7A6E66',       // mid stone
-  sand:     '#C4A882',       // warm sand / accent
-  sandDark: '#A08860',       // deeper sand
-  cream:    '#FBF9F6',       // near white warm
+  bg:     '#F9F7F3',
+  white:  '#FFFFFF',
+  dark:   '#1A1714',
+  text:   '#2E2B28',
+  muted:  '#8C857D',
+  subtle: '#C2B9AF',
+  border: '#E6E0D8',
+  sand:   '#BFA882',
+  sandLt: '#D4C4A8',
+  warm:   '#F2EDE5',
 }
 
-const AREAS = [
-  'Twin Waters','Maroochydore','Kuluin','Forest Glen','Mons',
-  'Buderim','Alexandra Headland','Mooloolaba','Mountain Creek','Minyama',
-]
-
-const SERVICES = [
-  {
-    name: 'Regular Clean',
-    tag: 'Weekly · Fortnightly',
-    desc: 'Your ongoing maintenance clean. We keep everything consistently fresh so you never have to think about it.',
-    items: ['All rooms vacuumed & dusted','Bathrooms sanitised','Kitchen surfaces & sink','Floors mopped','Bins emptied'],
-  },
-  {
-    name: 'Deep Clean',
-    tag: 'Ideal first booking',
-    desc: 'A thorough reset from top to bottom — perfect before starting a regular schedule or ahead of a special occasion.',
-    items: ['Everything in a regular clean','Oven & microwave interior','Skirting boards & door frames','Window sills & tracks','Light switches & handles'],
-  },
-  {
-    name: 'Spring Clean',
-    tag: 'Seasonal · One-off',
-    desc: 'When you want every corner attended to. We go deeper than a regular clean and leave nothing untouched.',
-    items: ['Full deep clean scope','Inside cupboards & drawers','Blinds & ceiling fans','Behind & under furniture','Wall spot cleaning'],
-  },
-  {
-    name: 'Move In / Out',
-    tag: 'Bond · Handover',
-    desc: 'Leave your old place immaculate or arrive to a clean start. We know exactly what property managers expect.',
-    items: ['Full spring clean scope','All appliances inside','Walls & light fittings','Garage swept out','Bond-back focused'],
-  },
-]
-
-const REVIEWS = [
-  {
-    name: 'Sarah M.',
-    suburb: 'Maroochydore',
-    text: 'Dust Bunnies have been cleaning our home for nearly a year and I genuinely can\'t imagine going back. The team is always on time, thorough, and lovely. Our oven has never looked so good.',
-  },
-  {
-    name: 'James T.',
-    suburb: 'Buderim',
-    text: 'After trying three different companies I finally found one that actually delivers. They notice the small things — light switches, door handles, behind the taps. Really exceptional attention to detail.',
-  },
-  {
-    name: 'Emma R.',
-    suburb: 'Mooloolaba',
-    text: 'Booked a move-out clean and got our full bond back without a single issue. The property manager actually commented on how good the oven was. I\'d recommend them to anyone.',
-  },
-  {
-    name: 'Kylie B.',
-    suburb: 'Mountain Creek',
-    text: 'Fortnightly for six months now and the standard has never dropped. It\'s such a relief to come home on clean day — the whole house smells amazing every single time.',
-  },
-]
-
-const FAQS = [
-  { q: 'How do I get a quote?', a: 'Fill out our quick online form — it takes under two minutes. We\'ll send you a tailored quote, usually within a few hours during business days.' },
-  { q: 'Do I need to be home?', a: 'Most of our clients aren\'t home during their clean. Many use a lockbox or leave a spare key. We\'re fully insured and trusted — your home is in safe hands.' },
-  { q: 'What\'s included in a regular clean?', a: 'All rooms dusted and vacuumed or mopped, bathrooms and toilets scrubbed, kitchen benches and sink wiped down, and bins emptied. We tailor to your home on the first visit.' },
-  { q: 'Do you bring your own products?', a: 'Yes — we bring everything. If you have preferences (eco products, a particular vacuum) just let us know and we\'ll accommodate where possible.' },
-  { q: 'How much does a clean cost?', a: 'It depends on your home\'s size and the type of clean. Most regular cleans for a 3-bedroom home start from around $180–$220. Get a free quote for your exact address.' },
-  { q: 'Can I change or pause my bookings?', a: 'Absolutely. We just ask for 48 hours\' notice so we can fill the slot. No lock-in contracts, ever.' },
-]
-
-// ─── Injected CSS ─────────────────────────────────────────────────────────────
+// ─── Global CSS ───────────────────────────────────────────────────────────────
+// Playfair Display loaded for display headings only
 const CSS = `
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
-  body { background: ${C.bg}; font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; -webkit-font-smoothing: antialiased; }
-  a { text-decoration: none; }
+  body {
+    background: ${C.bg};
+    font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    color: ${C.text};
+  }
 
-  .db-nav-links { display: flex; align-items: center; gap: 32px; }
-  .db-hamburger { display: none; }
+  .db-serif { font-family: 'Playfair Display', Georgia, serif; }
 
-  .db-hero-inner {
+  /* Nav */
+  .db-nav-links { display: flex; align-items: center; gap: 36px; }
+  .db-hamburger { display: none !important; }
+
+  /* Hero */
+  .db-hero-text { max-width: 780px; }
+
+  /* Services */
+  .db-service-row {
+    display: grid;
+    grid-template-columns: 200px 1fr 1fr;
+    gap: 0;
+    padding: 36px 0;
+    border-top: 1px solid ${C.border};
+    align-items: start;
+  }
+  .db-service-row:last-child { border-bottom: 1px solid ${C.border}; }
+
+  /* Reviews */
+  .db-reviews-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+  }
+
+  /* Footer grid */
+  .db-footer-cols {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 48px;
+  }
+
+  /* FAQ */
+  .db-faq-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  /* Areas */
+  .db-areas-inner {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 80px;
     align-items: center;
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 40px;
   }
 
-  .db-services-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1px;
-    background: ${C.border};
-    border: 1px solid ${C.border};
-    border-radius: 16px;
-    overflow: hidden;
-  }
-
-  .db-service-card {
-    background: ${C.card};
-    padding: 32px 24px;
-    transition: background 0.2s;
-  }
-  .db-service-card:hover { background: ${C.cream}; }
-
-  .db-three-col {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 40px;
-  }
-
-  .db-reviews-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-  }
-
-  .db-footer-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1.5fr;
-    gap: 48px;
-  }
-
-  @media (max-width: 960px) {
-    .db-nav-links { display: none; }
-    .db-hamburger { display: block; }
-    .db-hero-inner { grid-template-columns: 1fr; gap: 40px; padding: 0 24px; text-align: center; }
-    .db-services-grid { grid-template-columns: repeat(2, 1fr); }
-    .db-three-col { grid-template-columns: 1fr; gap: 24px; }
-    .db-reviews-grid { grid-template-columns: 1fr; }
-    .db-footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
-  }
-
-  @media (max-width: 560px) {
-    .db-services-grid { grid-template-columns: 1fr; }
-    .db-footer-grid { grid-template-columns: 1fr; }
+  @media (max-width: 900px) {
+    .db-nav-links { display: none !important; }
+    .db-hamburger { display: block !important; }
+    .db-service-row { grid-template-columns: 1fr; gap: 12px; }
+    .db-reviews-grid { grid-template-columns: 1fr; gap: 32px; }
+    .db-footer-cols { grid-template-columns: 1fr; gap: 32px; }
+    .db-faq-row { grid-template-columns: 1fr; gap: 32px; }
+    .db-areas-inner { grid-template-columns: 1fr; gap: 32px; }
   }
 `
 
@@ -158,92 +96,86 @@ function Nav({ onQuote }) {
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 60)
-    window.addEventListener('scroll', fn)
+    const fn = () => setScrolled(window.scrollY > 80)
+    window.addEventListener('scroll', fn, { passive: true })
     return () => window.removeEventListener('scroll', fn)
   }, [])
 
-  const links = ['Services', 'How it works', 'Reviews', 'Areas', 'FAQ']
-
   return (
-    <nav style={{
-      position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
-      background: scrolled ? 'rgba(248,245,240,0.95)' : 'transparent',
-      backdropFilter: scrolled ? 'blur(12px)' : 'none',
-      borderBottom: scrolled ? `1px solid ${C.border}` : '1px solid transparent',
-      transition: 'all 0.3s',
-    }}>
-      <div style={{
-        maxWidth: 1100, margin: '0 auto', padding: '0 40px',
-        height: 68, display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+    <>
+      <nav style={{
+        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
+        background: scrolled ? 'rgba(249,247,243,0.95)' : 'transparent',
+        backdropFilter: scrolled ? 'blur(16px)' : 'none',
+        borderBottom: scrolled ? `1px solid ${C.border}` : '1px solid transparent',
+        transition: 'all 0.4s ease',
       }}>
-        <a href="/" style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <div style={{
-            width: 32, height: 32, borderRadius: '50%',
-            background: C.sand, display: 'flex', alignItems: 'center', justifyContent: 'center',
-          }}>
-            <span style={{ fontSize: 16 }}>🐰</span>
-          </div>
-          <div>
-            <div style={{ fontWeight: 700, fontSize: 14, color: C.dark, letterSpacing: -0.2 }}>Dust Bunnies</div>
-            <div style={{ fontSize: 10, color: C.muted, fontWeight: 500, letterSpacing: 1.2, textTransform: 'uppercase' }}>Cleaning Co.</div>
-          </div>
-        </a>
-
-        <div className="db-nav-links">
-          {links.map(l => (
-            <a key={l} href={`#${l.toLowerCase().replace(/ /g,'-')}`} style={{
-              color: C.stone, fontSize: 14, fontWeight: 500,
-              transition: 'color 0.15s',
-            }}
-              onMouseEnter={e => e.target.style.color = C.dark}
-              onMouseLeave={e => e.target.style.color = C.stone}
-            >{l}</a>
-          ))}
-          <button onClick={onQuote} style={{
-            background: C.dark, color: C.cream,
-            border: 'none', borderRadius: 8, padding: '9px 20px',
-            fontWeight: 600, fontSize: 13, cursor: 'pointer',
-            letterSpacing: 0.1,
-            transition: 'background 0.15s',
-          }}
-            onMouseEnter={e => e.target.style.background = C.text}
-            onMouseLeave={e => e.target.style.background = C.dark}
-          >
-            Get a quote
-          </button>
-        </div>
-
-        <button className="db-hamburger" onClick={() => setOpen(o => !o)} style={{
-          background: 'none', border: 'none', cursor: 'pointer',
-          color: C.dark, fontSize: 20, padding: 4,
+        <div style={{
+          maxWidth: 1200, margin: '0 auto', padding: '0 48px',
+          height: 72, display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         }}>
-          {open ? '✕' : '☰'}
-        </button>
-      </div>
+          <a href="/" style={{ textDecoration: 'none' }}>
+            <span className="db-serif" style={{
+              fontSize: 18, fontWeight: 700, color: C.dark,
+              letterSpacing: -0.3,
+            }}>Dust Bunnies</span>
+          </a>
+
+          <div className="db-nav-links">
+            {['Services', 'Reviews', 'Areas', 'FAQ'].map(l => (
+              <a key={l} href={`#${l.toLowerCase()}`} style={{
+                color: C.muted, fontSize: 13, fontWeight: 500,
+                textDecoration: 'none', letterSpacing: 0.2,
+                transition: 'color 0.2s',
+              }}
+                onMouseEnter={e => e.target.style.color = C.dark}
+                onMouseLeave={e => e.target.style.color = C.muted}
+              >{l}</a>
+            ))}
+            <button onClick={onQuote} style={{
+              background: C.dark, color: C.bg,
+              border: 'none', borderRadius: 6,
+              padding: '9px 22px', fontWeight: 500, fontSize: 13,
+              cursor: 'pointer', letterSpacing: 0.2,
+              transition: 'opacity 0.2s',
+            }}
+              onMouseEnter={e => e.target.style.opacity = '0.8'}
+              onMouseLeave={e => e.target.style.opacity = '1'}
+            >Get a quote</button>
+          </div>
+
+          <button className="db-hamburger" onClick={() => setOpen(o => !o)} style={{
+            background: 'none', border: 'none', cursor: 'pointer',
+            color: C.dark, fontSize: 18, padding: 4, lineHeight: 1,
+          }}>{open ? '✕' : '☰'}</button>
+        </div>
+      </nav>
 
       {open && (
         <div style={{
-          background: C.cream, borderTop: `1px solid ${C.border}`,
-          padding: '16px 24px 24px',
+          position: 'fixed', top: 72, left: 0, right: 0, zIndex: 99,
+          background: C.white, borderBottom: `1px solid ${C.border}`,
+          padding: '24px 48px 32px',
         }}>
-          {links.map(l => (
-            <a key={l} href={`#${l.toLowerCase().replace(/ /g, '-')}`}
+          {['Services', 'Reviews', 'Areas', 'FAQ'].map(l => (
+            <a key={l} href={`#${l.toLowerCase()}`}
               onClick={() => setOpen(false)}
               style={{
-                display: 'block', padding: '12px 0',
-                color: C.text, fontSize: 15, fontWeight: 500,
+                display: 'block', padding: '14px 0',
                 borderBottom: `1px solid ${C.border}`,
+                color: C.text, fontSize: 16, fontWeight: 500,
+                textDecoration: 'none',
               }}>{l}</a>
           ))}
           <button onClick={() => { onQuote(); setOpen(false) }} style={{
-            marginTop: 16, width: '100%', background: C.dark, color: C.cream,
-            border: 'none', borderRadius: 8, padding: '13px',
-            fontWeight: 600, fontSize: 15, cursor: 'pointer',
-          }}>Get a quote</button>
+            marginTop: 20, width: '100%',
+            background: C.dark, color: C.bg,
+            border: 'none', borderRadius: 6, padding: '14px',
+            fontWeight: 500, fontSize: 15, cursor: 'pointer',
+          }}>Get a free quote</button>
         </div>
       )}
-    </nav>
+    </>
   )
 }
 
@@ -251,130 +183,82 @@ function Nav({ onQuote }) {
 function Hero({ onQuote }) {
   return (
     <section style={{
-      background: C.bgDeep,
-      paddingTop: 68,
       minHeight: '100vh',
-      display: 'flex',
-      alignItems: 'center',
+      background: C.bg,
+      display: 'flex', flexDirection: 'column',
+      justifyContent: 'flex-end',
+      padding: '0 48px 80px',
+      position: 'relative',
+      overflow: 'hidden',
     }}>
-      <div className="db-hero-inner" style={{ width: '100%', padding: '80px 40px' }}>
-        {/* Left — copy */}
-        <div>
-          <div style={{
-            display: 'inline-flex', alignItems: 'center', gap: 6,
-            border: `1px solid ${C.border}`, borderRadius: 100,
-            padding: '5px 14px', marginBottom: 32,
-            color: C.muted, fontSize: 12, fontWeight: 500, letterSpacing: 0.5,
-          }}>
-            Sunshine Coast, Queensland
-          </div>
+      {/* Subtle top-right wash */}
+      <div style={{
+        position: 'absolute', top: 0, right: 0,
+        width: '55%', height: '100%',
+        background: `linear-gradient(135deg, transparent 30%, ${C.warm} 100%)`,
+        pointerEvents: 'none',
+      }} />
 
-          <h1 style={{
-            fontSize: 'clamp(40px, 5vw, 68px)',
-            fontWeight: 800,
-            color: C.dark,
-            lineHeight: 1.05,
-            letterSpacing: -2,
-            marginBottom: 24,
-          }}>
-            A cleaner home.<br />
-            <span style={{ color: C.sand }}>A lighter life.</span>
-          </h1>
+      {/* Location tag — top left */}
+      <div style={{
+        position: 'absolute', top: 100, left: 48,
+        fontSize: 12, color: C.muted, fontWeight: 500,
+        letterSpacing: 2, textTransform: 'uppercase',
+      }}>
+        Sunshine Coast, QLD
+      </div>
 
+      {/* Small decorative rule */}
+      <div style={{
+        position: 'absolute', top: 118, left: 48,
+        width: 32, height: 1, background: C.sandLt, marginTop: 8,
+      }} />
+
+      <div style={{ maxWidth: 1200, width: '100%', position: 'relative' }}>
+        <h1 className="db-serif" style={{
+          fontSize: 'clamp(52px, 8vw, 110px)',
+          fontWeight: 700,
+          color: C.dark,
+          lineHeight: 1.0,
+          letterSpacing: -3,
+          marginBottom: 40,
+          maxWidth: 900,
+        }}>
+          Your home,<br />
+          <em style={{ fontStyle: 'italic', color: C.sand }}>effortlessly</em><br />
+          clean.
+        </h1>
+
+        <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: 32 }}>
           <p style={{
-            fontSize: 17, color: C.stone, lineHeight: 1.7,
-            marginBottom: 40, maxWidth: 440,
+            fontSize: 17, color: C.muted, lineHeight: 1.75,
+            maxWidth: 380, fontWeight: 400,
           }}>
-            Professional home cleaning for Sunshine Coast families who value their time.
-            Consistent, careful, and always on time.
+            Professional home cleaning for Sunshine Coast families.
+            Reliable, thorough, and always on time — so you can focus on everything else.
           </p>
 
-          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 14 }}>
             <button onClick={onQuote} style={{
-              background: C.dark, color: C.cream,
-              border: 'none', borderRadius: 10, padding: '14px 28px',
-              fontWeight: 600, fontSize: 15, cursor: 'pointer',
-              transition: 'background 0.15s',
+              background: C.dark, color: C.bg,
+              border: 'none', borderRadius: 6,
+              padding: '16px 36px', fontWeight: 500, fontSize: 15,
+              cursor: 'pointer', letterSpacing: 0.2,
+              transition: 'opacity 0.2s',
             }}
-              onMouseEnter={e => e.target.style.background = C.text}
-              onMouseLeave={e => e.target.style.background = C.dark}
-            >
-              Get a free quote
-            </button>
-            <a href="#services" style={{
-              background: 'transparent', color: C.text,
-              border: `1px solid ${C.border}`, borderRadius: 10,
-              padding: '14px 28px', fontWeight: 500, fontSize: 15,
-              transition: 'border-color 0.15s',
-            }}
-              onMouseEnter={e => e.target.style.borderColor = C.subtle}
-              onMouseLeave={e => e.target.style.borderColor = C.border}
-            >
-              Our services
-            </a>
-          </div>
-
-          {/* Inline trust */}
-          <div style={{ marginTop: 40, display: 'flex', gap: 24, flexWrap: 'wrap' }}>
-            {['Fully insured', 'No lock-in contracts', 'Same team every visit'].map(t => (
-              <div key={t} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <div style={{ width: 5, height: 5, borderRadius: '50%', background: C.sand }} />
-                <span style={{ fontSize: 13, color: C.muted, fontWeight: 500 }}>{t}</span>
-              </div>
-            ))}
+              onMouseEnter={e => e.target.style.opacity = '0.75'}
+              onMouseLeave={e => e.target.style.opacity = '1'}
+            >Get a free quote</button>
+            <span style={{ fontSize: 12, color: C.subtle }}>No commitment · Reply within a few hours</span>
           </div>
         </div>
 
-        {/* Right — stat card */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-          <div style={{
-            background: C.card, borderRadius: 20,
-            border: `1px solid ${C.border}`,
-            padding: '32px',
-            boxShadow: '0 4px 40px rgba(28,25,23,0.06)',
-          }}>
-            <div style={{ fontSize: 13, color: C.muted, fontWeight: 500, marginBottom: 24, letterSpacing: 0.3 }}>
-              Trusted by Sunshine Coast families
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, marginBottom: 28 }}>
-              {[
-                { n: '200+', l: 'Happy clients' },
-                { n: '3 yrs', l: 'On the Coast' },
-                { n: '5.0', l: 'Average rating' },
-                { n: '100%', l: 'Satisfaction' },
-              ].map(s => (
-                <div key={s.l}>
-                  <div style={{ fontSize: 28, fontWeight: 800, color: C.dark, letterSpacing: -1 }}>{s.n}</div>
-                  <div style={{ fontSize: 12, color: C.muted, marginTop: 2 }}>{s.l}</div>
-                </div>
-              ))}
-            </div>
-            <div style={{
-              borderTop: `1px solid ${C.border}`, paddingTop: 20,
-              fontSize: 13, color: C.stone, lineHeight: 1.6,
-              fontStyle: 'italic',
-            }}>
-              "I genuinely can't imagine going back to doing it ourselves." — Sarah M., Maroochydore
-            </div>
-          </div>
-
-          <div style={{
-            background: C.sand, borderRadius: 14,
-            padding: '20px 24px',
-            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          }}>
-            <div>
-              <div style={{ color: C.dark, fontWeight: 700, fontSize: 15 }}>Ready to get started?</div>
-              <div style={{ color: 'rgba(28,25,23,0.6)', fontSize: 13, marginTop: 2 }}>Free quote, no commitment</div>
-            </div>
-            <button onClick={onQuote} style={{
-              background: C.dark, color: C.cream, border: 'none',
-              borderRadius: 8, padding: '10px 18px', fontWeight: 600,
-              fontSize: 13, cursor: 'pointer', whiteSpace: 'nowrap',
-            }}>
-              Get a quote →
-            </button>
-          </div>
+        {/* Thin divider line */}
+        <div style={{ height: 1, background: C.border, marginTop: 64 }} />
+        <div style={{ display: 'flex', gap: 48, paddingTop: 24, flexWrap: 'wrap' }}>
+          {['200+ happy clients', 'Fully insured', 'Same team every visit', 'No lock-in contracts'].map(t => (
+            <span key={t} style={{ fontSize: 12, color: C.muted, fontWeight: 500, letterSpacing: 0.3 }}>{t}</span>
+          ))}
         </div>
       </div>
     </section>
@@ -382,55 +266,88 @@ function Hero({ onQuote }) {
 }
 
 // ─── Services ─────────────────────────────────────────────────────────────────
+const SERVICES = [
+  {
+    name: 'Regular Clean',
+    freq: 'Weekly or fortnightly',
+    desc: 'Your ongoing maintenance clean. We keep your home consistently fresh — dusted, vacuumed, bathrooms scrubbed, floors mopped — so you never have to think about it.',
+    note: 'Most popular',
+  },
+  {
+    name: 'Deep Clean',
+    freq: 'One-off or first visit',
+    desc: 'A thorough top-to-bottom clean that goes well beyond the surface. Includes skirting boards, window sills, oven interior, and all the details that are easy to miss.',
+    note: 'Recommended to start',
+  },
+  {
+    name: 'Spring Clean',
+    freq: 'Seasonal refresh',
+    desc: 'When you want every corner attended to. Inside cupboards, behind furniture, blinds and fans, wall spot cleaning — a true reset for your home.',
+    note: null,
+  },
+  {
+    name: 'Move In / Out',
+    freq: 'Bond & handover cleans',
+    desc: 'Leave your old place spotless or arrive to a fresh start. We know exactly what property managers look for and focus on the details that matter for bond return.',
+    note: null,
+  },
+]
+
 function Services({ onQuote }) {
   return (
-    <section id="services" style={{ background: C.bg, padding: '100px 40px' }}>
-      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-        <div style={{ marginBottom: 48 }}>
-          <div style={{ fontSize: 12, color: C.muted, fontWeight: 600, letterSpacing: 2, textTransform: 'uppercase', marginBottom: 12 }}>
+    <section id="services" style={{ background: C.white, padding: '100px 48px', borderTop: `1px solid ${C.border}` }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 64, flexWrap: 'wrap', gap: 24 }}>
+          <h2 className="db-serif" style={{
+            fontSize: 'clamp(32px, 4vw, 52px)', fontWeight: 700,
+            color: C.dark, letterSpacing: -1.5, lineHeight: 1.1,
+          }}>
             What we offer
-          </div>
-          <h2 style={{ fontSize: 'clamp(28px, 4vw, 44px)', fontWeight: 800, color: C.dark, letterSpacing: -1.5, maxWidth: 520 }}>
-            Every kind of clean, done properly
           </h2>
+          <p style={{ fontSize: 14, color: C.muted, maxWidth: 320, lineHeight: 1.7 }}>
+            Every service is carried out by the same trusted team, with the same care and attention — every single visit.
+          </p>
         </div>
 
-        <div className="db-services-grid">
-          {SERVICES.map((s, i) => (
-            <div key={s.name} className="db-service-card">
-              <div style={{
-                fontSize: 11, fontWeight: 600, letterSpacing: 1.5, textTransform: 'uppercase',
-                color: C.muted, marginBottom: 16,
-              }}>{s.tag}</div>
-              <h3 style={{ fontSize: 20, fontWeight: 700, color: C.dark, marginBottom: 12, letterSpacing: -0.3 }}>{s.name}</h3>
-              <p style={{ fontSize: 13, color: C.stone, lineHeight: 1.7, marginBottom: 20 }}>{s.desc}</p>
-              <ul style={{ listStyle: 'none', padding: 0 }}>
-                {s.items.map(item => (
-                  <li key={item} style={{
-                    fontSize: 12, color: C.stone, padding: '5px 0',
-                    borderBottom: `1px solid ${C.border}`,
-                    display: 'flex', alignItems: 'center', gap: 8,
-                  }}>
-                    <span style={{ color: C.sand, fontSize: 10 }}>—</span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
+        {SERVICES.map((s, i) => (
+          <div key={s.name} className="db-service-row">
+            <div>
+              <div style={{ fontSize: 12, color: C.muted, letterSpacing: 1.5, textTransform: 'uppercase', fontWeight: 500 }}>
+                {String(i + 1).padStart(2, '0')}
+              </div>
+              {s.note && (
+                <div style={{
+                  marginTop: 12,
+                  display: 'inline-block',
+                  fontSize: 10, fontWeight: 600, letterSpacing: 1,
+                  textTransform: 'uppercase', color: C.sand,
+                  border: `1px solid ${C.sandLt}`, borderRadius: 4,
+                  padding: '3px 8px',
+                }}>{s.note}</div>
+              )}
             </div>
-          ))}
-        </div>
+            <div style={{ paddingRight: 40 }}>
+              <h3 style={{ fontSize: 22, fontWeight: 700, color: C.dark, marginBottom: 6, letterSpacing: -0.5 }}>{s.name}</h3>
+              <div style={{ fontSize: 12, color: C.muted, fontWeight: 500, letterSpacing: 0.3 }}>{s.freq}</div>
+            </div>
+            <div>
+              <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.8 }}>{s.desc}</p>
+            </div>
+          </div>
+        ))}
 
-        <div style={{ marginTop: 32, textAlign: 'center' }}>
+        <div style={{ marginTop: 48 }}>
           <button onClick={onQuote} style={{
             background: 'transparent', color: C.dark,
-            border: `1px solid ${C.border}`, borderRadius: 8,
-            padding: '12px 28px', fontWeight: 500, fontSize: 14, cursor: 'pointer',
-            transition: 'border-color 0.15s, background 0.15s',
+            border: `1px solid ${C.border}`, borderRadius: 6,
+            padding: '12px 28px', fontWeight: 500, fontSize: 13,
+            cursor: 'pointer', letterSpacing: 0.2,
+            transition: 'border-color 0.2s',
           }}
-            onMouseEnter={e => { e.target.style.background = C.card; e.target.style.borderColor = C.subtle }}
-            onMouseLeave={e => { e.target.style.background = 'transparent'; e.target.style.borderColor = C.border }}
+            onMouseEnter={e => e.target.style.borderColor = C.dark}
+            onMouseLeave={e => e.target.style.borderColor = C.border}
           >
-            Get a personalised quote for your home
+            Get a personalised quote →
           </button>
         </div>
       </div>
@@ -438,77 +355,26 @@ function Services({ onQuote }) {
   )
 }
 
-// ─── How it works ─────────────────────────────────────────────────────────────
-function HowItWorks() {
-  const steps = [
-    { n: '01', title: 'Tell us about your home', body: 'Fill out our quick form — it takes under two minutes. Let us know your home size, the type of clean, and a few details about what matters to you.' },
-    { n: '02', title: 'Receive your tailored quote', body: 'We\'ll send you a personalised quote, usually within a few hours. No hidden fees, no obligations. Pick a time that suits you.' },
-    { n: '03', title: 'Come home to clean', body: 'Our team arrives on time, gets the job done, and leaves your home spotless. You don\'t need to lift a finger.' },
-  ]
-
+// ─── Pull quote / brand statement ─────────────────────────────────────────────
+function Statement() {
   return (
-    <section id="how-it-works" style={{ background: C.card, padding: '100px 40px', borderTop: `1px solid ${C.border}` }}>
-      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-        <div style={{ marginBottom: 64 }}>
-          <div style={{ fontSize: 12, color: C.muted, fontWeight: 600, letterSpacing: 2, textTransform: 'uppercase', marginBottom: 12 }}>
-            How it works
-          </div>
-          <h2 style={{ fontSize: 'clamp(28px, 4vw, 44px)', fontWeight: 800, color: C.dark, letterSpacing: -1.5 }}>
-            Simple from the start
-          </h2>
-        </div>
-
-        <div className="db-three-col">
-          {steps.map(s => (
-            <div key={s.n}>
-              <div style={{
-                fontSize: 12, fontWeight: 700, color: C.sand,
-                letterSpacing: 1.5, marginBottom: 20, fontVariantNumeric: 'tabular-nums',
-              }}>{s.n}</div>
-              <div style={{ width: 40, height: 1, background: C.border, marginBottom: 20 }} />
-              <h3 style={{ fontSize: 18, fontWeight: 700, color: C.dark, letterSpacing: -0.3, marginBottom: 12 }}>{s.title}</h3>
-              <p style={{ fontSize: 14, color: C.stone, lineHeight: 1.7 }}>{s.body}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-// ─── About strip ──────────────────────────────────────────────────────────────
-function About() {
-  const points = [
-    { title: 'Locally owned', body: 'Born and raised on the Sunshine Coast. We\'re your neighbours — not a franchise or a call centre.' },
-    { title: 'Fully insured', body: 'Public liability and contents insurance on every visit, so you can leave with complete peace of mind.' },
-    { title: 'Consistent teams', body: 'We match you with the same cleaner (or small team) each time. They learn your home and your preferences.' },
-    { title: 'Satisfaction guarantee', body: 'Not happy with something? Let us know and we\'ll return to fix it within 24 hours — no questions asked.' },
-  ]
-
-  return (
-    <section style={{ background: C.bgDeep, padding: '100px 40px', borderTop: `1px solid ${C.border}` }}>
-      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'start' }}>
-          <div>
-            <div style={{ fontSize: 12, color: C.muted, fontWeight: 600, letterSpacing: 2, textTransform: 'uppercase', marginBottom: 12 }}>
-              Why Dust Bunnies
-            </div>
-            <h2 style={{ fontSize: 'clamp(28px, 4vw, 44px)', fontWeight: 800, color: C.dark, letterSpacing: -1.5, lineHeight: 1.1, marginBottom: 20 }}>
-              More than just a clean house
-            </h2>
-            <p style={{ fontSize: 16, color: C.stone, lineHeight: 1.75, maxWidth: 400 }}>
-              We built Dust Bunnies on the belief that a great cleaning service should feel effortless —
-              reliable enough that you stop thinking about it, and good enough that you notice every time you come home.
-            </p>
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
-            {points.map(p => (
-              <div key={p.title} style={{ paddingBottom: 32, borderBottom: `1px solid ${C.border}` }}>
-                <div style={{ fontWeight: 700, fontSize: 15, color: C.dark, marginBottom: 6 }}>{p.title}</div>
-                <div style={{ fontSize: 14, color: C.stone, lineHeight: 1.65 }}>{p.body}</div>
-              </div>
-            ))}
-          </div>
+    <section style={{
+      background: C.dark, padding: '120px 48px',
+    }}>
+      <div style={{ maxWidth: 900, margin: '0 auto' }}>
+        <p className="db-serif" style={{
+          fontSize: 'clamp(26px, 4vw, 48px)',
+          fontWeight: 400, fontStyle: 'italic',
+          color: C.bg, lineHeight: 1.4, letterSpacing: -0.5,
+        }}>
+          "We started Dust Bunnies because we believed the Sunshine Coast deserved a cleaning service
+          that actually cared — about your home, your time, and the small details that make the difference."
+        </p>
+        <div style={{ marginTop: 40, display: 'flex', alignItems: 'center', gap: 16 }}>
+          <div style={{ width: 32, height: 1, background: C.sand }} />
+          <span style={{ fontSize: 12, color: C.subtle, fontWeight: 500, letterSpacing: 1.5, textTransform: 'uppercase' }}>
+            Dust Bunnies Cleaning Co. · Sunshine Coast
+          </span>
         </div>
       </div>
     </section>
@@ -516,46 +382,46 @@ function About() {
 }
 
 // ─── Reviews ──────────────────────────────────────────────────────────────────
+const REVIEWS = [
+  { name: 'Sarah M.', suburb: 'Maroochydore', text: 'Dust Bunnies have been cleaning our home for nearly a year and I genuinely can\'t imagine going back. The team is always on time, thorough, and the care they put in is obvious every single visit.' },
+  { name: 'James T.', suburb: 'Buderim', text: 'After trying three different companies I finally found one that actually delivers. They notice the small things — light switches, door handles, behind the taps. Exceptional attention to detail.' },
+  { name: 'Emma R.', suburb: 'Mooloolaba', text: 'Booked a move-out clean and got our full bond back without a single issue. The property manager actually commented on how good the oven was. I\'d recommend them without hesitation.' },
+  { name: 'Kylie B.', suburb: 'Mountain Creek', text: 'Fortnightly for six months and the standard has never dropped once. It\'s such a relief to come home on clean day — the whole house just feels different.' },
+]
+
 function Reviews() {
   return (
-    <section id="reviews" style={{ background: C.bg, padding: '100px 40px', borderTop: `1px solid ${C.border}` }}>
-      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-        <div style={{ marginBottom: 52 }}>
-          <div style={{ fontSize: 12, color: C.muted, fontWeight: 600, letterSpacing: 2, textTransform: 'uppercase', marginBottom: 12 }}>
+    <section id="reviews" style={{ background: C.bg, padding: '100px 48px', borderTop: `1px solid ${C.border}` }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+        <div style={{ marginBottom: 64 }}>
+          <div style={{ fontSize: 12, color: C.muted, fontWeight: 500, letterSpacing: 2, textTransform: 'uppercase', marginBottom: 16 }}>
             Client reviews
           </div>
-          <h2 style={{ fontSize: 'clamp(28px, 4vw, 44px)', fontWeight: 800, color: C.dark, letterSpacing: -1.5 }}>
+          <h2 className="db-serif" style={{
+            fontSize: 'clamp(32px, 4vw, 52px)', fontWeight: 700,
+            color: C.dark, letterSpacing: -1.5,
+          }}>
             What our clients say
           </h2>
         </div>
+
         <div className="db-reviews-grid">
           {REVIEWS.map(r => (
-            <div key={r.name} style={{
-              background: C.card, borderRadius: 16,
-              border: `1px solid ${C.border}`,
-              padding: '32px',
-            }}>
-              <div style={{ display: 'flex', gap: 2, marginBottom: 20 }}>
+            <div key={r.name} style={{ paddingBottom: 48, borderBottom: `1px solid ${C.border}` }}>
+              <div style={{ display: 'flex', gap: 1, marginBottom: 20 }}>
                 {[...Array(5)].map((_, i) => (
-                  <span key={i} style={{ color: C.sand, fontSize: 14 }}>★</span>
+                  <span key={i} style={{ color: C.sand, fontSize: 13 }}>★</span>
                 ))}
               </div>
-              <p style={{ fontSize: 15, color: C.text, lineHeight: 1.75, marginBottom: 24, fontStyle: 'italic' }}>
+              <p style={{
+                fontSize: 15, color: C.text, lineHeight: 1.8,
+                marginBottom: 24,
+              }}>
                 "{r.text}"
               </p>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <div style={{
-                  width: 36, height: 36, borderRadius: '50%',
-                  background: C.bgDeep, border: `1px solid ${C.border}`,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: 14, fontWeight: 700, color: C.stone,
-                }}>
-                  {r.name[0]}
-                </div>
-                <div>
-                  <div style={{ fontWeight: 700, color: C.dark, fontSize: 14 }}>{r.name}</div>
-                  <div style={{ color: C.muted, fontSize: 12 }}>{r.suburb}, Sunshine Coast</div>
-                </div>
+              <div style={{ fontSize: 13, color: C.muted }}>
+                <span style={{ fontWeight: 600, color: C.dark }}>{r.name}</span>
+                {' '}· {r.suburb}
               </div>
             </div>
           ))}
@@ -566,30 +432,38 @@ function Reviews() {
 }
 
 // ─── Areas ────────────────────────────────────────────────────────────────────
+const AREAS = ['Twin Waters','Maroochydore','Kuluin','Forest Glen','Mons','Buderim','Alexandra Headland','Mooloolaba','Mountain Creek','Minyama']
+
 function Areas() {
   return (
-    <section id="areas" style={{ background: C.card, padding: '100px 40px', borderTop: `1px solid ${C.border}` }}>
-      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }}>
+    <section id="areas" style={{ background: C.white, padding: '100px 48px', borderTop: `1px solid ${C.border}` }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+        <div className="db-areas-inner">
           <div>
-            <div style={{ fontSize: 12, color: C.muted, fontWeight: 600, letterSpacing: 2, textTransform: 'uppercase', marginBottom: 12 }}>
+            <div style={{ fontSize: 12, color: C.muted, fontWeight: 500, letterSpacing: 2, textTransform: 'uppercase', marginBottom: 16 }}>
               Where we work
             </div>
-            <h2 style={{ fontSize: 'clamp(28px, 4vw, 44px)', fontWeight: 800, color: C.dark, letterSpacing: -1.5, lineHeight: 1.1, marginBottom: 16 }}>
-              Across the Sunshine Coast
+            <h2 className="db-serif" style={{
+              fontSize: 'clamp(32px, 4vw, 52px)', fontWeight: 700,
+              color: C.dark, letterSpacing: -1.5, lineHeight: 1.1, marginBottom: 24,
+            }}>
+              Across the<br />Sunshine Coast
             </h2>
-            <p style={{ fontSize: 15, color: C.stone, lineHeight: 1.7 }}>
-              We service suburbs from Twin Waters to Minyama and everywhere in between.
-              Not sure if we cover your area? Get a quote and we'll let you know.
+            <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.8, maxWidth: 340 }}>
+              We service the Sunshine Coast from Twin Waters to Minyama.
+              Not sure if we cover your suburb? Get in touch and we'll let you know.
             </p>
           </div>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
-            {AREAS.map(area => (
-              <span key={area} style={{
-                background: C.bgDeep, color: C.text,
-                border: `1px solid ${C.border}`, borderRadius: 8,
-                padding: '8px 16px', fontSize: 13, fontWeight: 500,
-              }}>{area}</span>
+          <div>
+            {AREAS.map((area, i) => (
+              <div key={area} style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                padding: '14px 0',
+                borderBottom: i < AREAS.length - 1 ? `1px solid ${C.border}` : 'none',
+              }}>
+                <span style={{ fontSize: 15, color: C.text, fontWeight: 400 }}>{area}</span>
+                <div style={{ width: 4, height: 4, borderRadius: '50%', background: C.sandLt }} />
+              </div>
             ))}
           </div>
         </div>
@@ -599,46 +473,71 @@ function Areas() {
 }
 
 // ─── FAQ ──────────────────────────────────────────────────────────────────────
-function FAQ() {
+const FAQS = [
+  { q: 'How do I get a quote?', a: 'Fill out our quick online form — it takes under two minutes. We\'ll send you a tailored quote, usually within a few hours on business days.' },
+  { q: 'Do I need to be home?', a: 'Most of our clients aren\'t home during their clean. Many use a lockbox or leave a spare key. We\'re fully insured and trusted — your home is in safe hands.' },
+  { q: 'What\'s included in a regular clean?', a: 'All rooms dusted and vacuumed or mopped, bathrooms and toilets scrubbed, kitchen surfaces and sink cleaned, and bins emptied. We tailor to your home on the first visit.' },
+  { q: 'Do you bring your own products?', a: 'Yes — we bring everything we need. If you have preferences (eco-friendly products, specific requests) just let us know.' },
+  { q: 'How much does a clean cost?', a: 'It depends on your home\'s size and the service. Most regular cleans for a 3-bedroom home start from around $180–$220. Get a free quote for your exact address.' },
+  { q: 'Can I change or cancel my booking?', a: 'Absolutely. We ask for 48 hours\' notice to reschedule or cancel. No lock-in contracts — ever.' },
+]
+
+function FAQ({ onQuote }) {
   const [open, setOpen] = useState(null)
 
   return (
-    <section id="faq" style={{ background: C.bg, padding: '100px 40px', borderTop: `1px solid ${C.border}` }}>
-      <div style={{ maxWidth: 720, margin: '0 auto' }}>
-        <div style={{ marginBottom: 52 }}>
-          <div style={{ fontSize: 12, color: C.muted, fontWeight: 600, letterSpacing: 2, textTransform: 'uppercase', marginBottom: 12 }}>
-            FAQ
+    <section id="faq" style={{ background: C.bg, padding: '100px 48px', borderTop: `1px solid ${C.border}` }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+        <div className="db-faq-row">
+          <div style={{ position: 'sticky', top: 100 }}>
+            <div style={{ fontSize: 12, color: C.muted, fontWeight: 500, letterSpacing: 2, textTransform: 'uppercase', marginBottom: 16 }}>
+              FAQ
+            </div>
+            <h2 className="db-serif" style={{
+              fontSize: 'clamp(32px, 3vw, 48px)', fontWeight: 700,
+              color: C.dark, letterSpacing: -1.5, lineHeight: 1.1, marginBottom: 24,
+            }}>
+              Common<br />questions
+            </h2>
+            <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.8, marginBottom: 32 }}>
+              Can't find what you're looking for? Send us a message and we'll get back to you.
+            </p>
+            <button onClick={onQuote} style={{
+              background: 'transparent', color: C.dark,
+              border: `1px solid ${C.border}`, borderRadius: 6,
+              padding: '11px 24px', fontWeight: 500, fontSize: 13,
+              cursor: 'pointer', letterSpacing: 0.2,
+              transition: 'border-color 0.2s',
+            }}
+              onMouseEnter={e => e.target.style.borderColor = C.dark}
+              onMouseLeave={e => e.target.style.borderColor = C.border}
+            >Get in touch →</button>
           </div>
-          <h2 style={{ fontSize: 'clamp(28px, 4vw, 44px)', fontWeight: 800, color: C.dark, letterSpacing: -1.5 }}>
-            Common questions
-          </h2>
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          {FAQS.map((faq, i) => (
-            <div key={i} style={{ borderTop: `1px solid ${C.border}` }}>
-              <button
-                onClick={() => setOpen(open === i ? null : i)}
-                style={{
+
+          <div>
+            {FAQS.map((faq, i) => (
+              <div key={i} style={{ borderTop: `1px solid ${C.border}` }}>
+                <button onClick={() => setOpen(open === i ? null : i)} style={{
                   width: '100%', background: 'none', border: 'none',
                   padding: '22px 0', textAlign: 'left', cursor: 'pointer',
                   display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16,
-                }}
-              >
-                <span style={{ fontWeight: 600, color: C.dark, fontSize: 15 }}>{faq.q}</span>
-                <span style={{
-                  color: C.muted, fontSize: 20, lineHeight: 1,
-                  transform: open === i ? 'rotate(45deg)' : 'none',
-                  transition: 'transform 0.2s', flexShrink: 0,
-                }}>+</span>
-              </button>
-              {open === i && (
-                <div style={{ paddingBottom: 22, color: C.stone, fontSize: 14, lineHeight: 1.75 }}>
-                  {faq.a}
-                </div>
-              )}
-            </div>
-          ))}
-          <div style={{ borderTop: `1px solid ${C.border}` }} />
+                }}>
+                  <span style={{ fontWeight: 500, color: C.dark, fontSize: 15 }}>{faq.q}</span>
+                  <span style={{
+                    color: C.subtle, fontSize: 20, lineHeight: 1, flexShrink: 0,
+                    transform: open === i ? 'rotate(45deg)' : 'none',
+                    transition: 'transform 0.2s',
+                  }}>+</span>
+                </button>
+                {open === i && (
+                  <div style={{ paddingBottom: 22, fontSize: 14, color: C.muted, lineHeight: 1.8 }}>
+                    {faq.a}
+                  </div>
+                )}
+              </div>
+            ))}
+            <div style={{ borderTop: `1px solid ${C.border}` }} />
+          </div>
         </div>
       </div>
     </section>
@@ -649,32 +548,31 @@ function FAQ() {
 function CTA({ onQuote }) {
   return (
     <section style={{
-      background: C.dark, padding: '100px 40px', textAlign: 'center',
+      background: C.warm, padding: '120px 48px',
+      borderTop: `1px solid ${C.border}`,
     }}>
-      <div style={{ maxWidth: 560, margin: '0 auto' }}>
-        <h2 style={{
-          fontSize: 'clamp(32px, 5vw, 56px)',
-          fontWeight: 800, color: C.cream,
-          letterSpacing: -2, lineHeight: 1.1, marginBottom: 20,
+      <div style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 48 }}>
+        <h2 className="db-serif" style={{
+          fontSize: 'clamp(36px, 5vw, 68px)', fontWeight: 700,
+          color: C.dark, letterSpacing: -2, lineHeight: 1.05,
+          maxWidth: 580,
         }}>
-          Ready for a home that feels effortless?
+          Ready for a home<br />that feels effortless?
         </h2>
-        <p style={{ fontSize: 16, color: 'rgba(251,249,246,0.6)', marginBottom: 40, lineHeight: 1.65 }}>
-          Join hundreds of Sunshine Coast families who've made cleaning the last thing they think about.
-        </p>
-        <button onClick={onQuote} style={{
-          background: C.sand, color: C.dark,
-          border: 'none', borderRadius: 10, padding: '16px 36px',
-          fontWeight: 700, fontSize: 16, cursor: 'pointer',
-          transition: 'background 0.15s',
-        }}
-          onMouseEnter={e => e.target.style.background = C.sandDark}
-          onMouseLeave={e => e.target.style.background = C.sand}
-        >
-          Get a free quote
-        </button>
-        <div style={{ marginTop: 16, fontSize: 13, color: 'rgba(251,249,246,0.35)' }}>
-          Free quote · No commitment · Reply within a few hours
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 14, alignItems: 'flex-start' }}>
+          <button onClick={onQuote} style={{
+            background: C.dark, color: C.bg,
+            border: 'none', borderRadius: 6,
+            padding: '16px 40px', fontWeight: 500, fontSize: 15,
+            cursor: 'pointer', letterSpacing: 0.2,
+            transition: 'opacity 0.2s',
+          }}
+            onMouseEnter={e => e.target.style.opacity = '0.75'}
+            onMouseLeave={e => e.target.style.opacity = '1'}
+          >Get a free quote</button>
+          <span style={{ fontSize: 12, color: C.muted }}>
+            Free · No commitment · Reply within a few hours
+          </span>
         </div>
       </div>
     </section>
@@ -684,76 +582,59 @@ function CTA({ onQuote }) {
 // ─── Footer ───────────────────────────────────────────────────────────────────
 function Footer() {
   return (
-    <footer style={{ background: '#141210', padding: '60px 40px 32px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-        <div className="db-footer-grid">
+    <footer style={{ background: C.dark, padding: '72px 48px 40px' }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+        <div className="db-footer-cols">
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
-              <span style={{ fontSize: 18 }}>🐰</span>
-              <span style={{ color: C.cream, fontWeight: 700, fontSize: 14 }}>Dust Bunnies Cleaning Co.</span>
-            </div>
-            <p style={{ color: 'rgba(251,249,246,0.45)', fontSize: 13, lineHeight: 1.7, maxWidth: 260 }}>
-              Locally owned and operated on the Sunshine Coast. Professional home cleaning you can rely on.
+            <span className="db-serif" style={{ fontSize: 20, fontWeight: 700, color: C.bg, display: 'block', marginBottom: 16, letterSpacing: -0.3 }}>
+              Dust Bunnies
+            </span>
+            <p style={{ fontSize: 13, color: 'rgba(249,247,243,0.45)', lineHeight: 1.75, maxWidth: 280, marginBottom: 20 }}>
+              Locally owned home cleaning for Sunshine Coast families. Professional, reliable, and detail-obsessed.
             </p>
-            <div style={{ marginTop: 16, color: 'rgba(251,249,246,0.25)', fontSize: 12 }}>ABN 38 682 974 761</div>
+            <div style={{ fontSize: 11, color: 'rgba(249,247,243,0.25)', letterSpacing: 0.3 }}>ABN 38 682 974 761</div>
           </div>
 
           <div>
-            <div style={{ color: 'rgba(251,249,246,0.35)', fontSize: 11, fontWeight: 600, letterSpacing: 1.5, textTransform: 'uppercase', marginBottom: 16 }}>Services</div>
-            {['Regular Clean', 'Deep Clean', 'Spring Clean', 'Move In / Out'].map(s => (
-              <div key={s} style={{ color: 'rgba(251,249,246,0.55)', fontSize: 13, padding: '4px 0' }}>{s}</div>
-            ))}
-          </div>
-
-          <div>
-            <div style={{ color: 'rgba(251,249,246,0.35)', fontSize: 11, fontWeight: 600, letterSpacing: 1.5, textTransform: 'uppercase', marginBottom: 16 }}>Areas</div>
-            {AREAS.slice(0, 7).map(a => (
-              <div key={a} style={{ color: 'rgba(251,249,246,0.55)', fontSize: 13, padding: '4px 0' }}>{a}</div>
-            ))}
-          </div>
-
-          <div>
-            <div style={{ color: 'rgba(251,249,246,0.35)', fontSize: 11, fontWeight: 600, letterSpacing: 1.5, textTransform: 'uppercase', marginBottom: 16 }}>Contact</div>
+            <div style={{ fontSize: 11, color: 'rgba(249,247,243,0.3)', fontWeight: 600, letterSpacing: 2, textTransform: 'uppercase', marginBottom: 20 }}>Contact</div>
             {[
-              { text: '0484 264 458', href: 'tel:0484264458' },
-              { text: 'dustbunzcleaning@gmail.com', href: 'mailto:dustbunzcleaning@gmail.com' },
-              { text: 'Maroochydore, QLD 4558', href: null },
+              { t: '0484 264 458', h: 'tel:0484264458' },
+              { t: 'dustbunzcleaning@gmail.com', h: 'mailto:dustbunzcleaning@gmail.com' },
+              { t: 'Maroochydore, QLD', h: null },
             ].map(c => (
-              <div key={c.text} style={{ padding: '4px 0' }}>
-                {c.href ? (
-                  <a href={c.href} style={{ color: 'rgba(251,249,246,0.55)', fontSize: 13 }}
-                    onMouseEnter={e => e.target.style.color = C.sand}
-                    onMouseLeave={e => e.target.style.color = 'rgba(251,249,246,0.55)'}
-                  >{c.text}</a>
-                ) : (
-                  <span style={{ color: 'rgba(251,249,246,0.55)', fontSize: 13 }}>{c.text}</span>
-                )}
+              <div key={c.t} style={{ marginBottom: 10 }}>
+                {c.h
+                  ? <a href={c.h} style={{ color: 'rgba(249,247,243,0.55)', fontSize: 13, textDecoration: 'none' }}
+                      onMouseEnter={e => e.target.style.color = C.bg}
+                      onMouseLeave={e => e.target.style.color = 'rgba(249,247,243,0.55)'}
+                    >{c.t}</a>
+                  : <span style={{ color: 'rgba(249,247,243,0.55)', fontSize: 13 }}>{c.t}</span>
+                }
               </div>
             ))}
-            <div style={{ marginTop: 16, display: 'flex', gap: 8 }}>
-              {[
-                { label: 'Instagram', href: 'https://instagram.com/dustbunzcleaning' },
-                { label: 'Facebook', href: 'https://facebook.com/dustbunniescleaningsc' },
-              ].map(s => (
-                <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" style={{
-                  color: 'rgba(251,249,246,0.45)', fontSize: 12,
-                  border: '1px solid rgba(255,255,255,0.1)', borderRadius: 6,
-                  padding: '5px 10px',
-                  transition: 'color 0.15s, border-color 0.15s',
-                }}
-                  onMouseEnter={e => { e.target.style.color = C.cream; e.target.style.borderColor = 'rgba(255,255,255,0.25)' }}
-                  onMouseLeave={e => { e.target.style.color = 'rgba(251,249,246,0.45)'; e.target.style.borderColor = 'rgba(255,255,255,0.1)' }}
-                >{s.label}</a>
-              ))}
-            </div>
+          </div>
+
+          <div>
+            <div style={{ fontSize: 11, color: 'rgba(249,247,243,0.3)', fontWeight: 600, letterSpacing: 2, textTransform: 'uppercase', marginBottom: 20 }}>Follow</div>
+            {[
+              { l: 'Instagram', h: 'https://instagram.com/dustbunzcleaning' },
+              { l: 'Facebook', h: 'https://facebook.com/dustbunniescleaningsc' },
+            ].map(s => (
+              <div key={s.l} style={{ marginBottom: 10 }}>
+                <a href={s.h} target="_blank" rel="noopener noreferrer"
+                  style={{ color: 'rgba(249,247,243,0.55)', fontSize: 13, textDecoration: 'none' }}
+                  onMouseEnter={e => e.target.style.color = C.bg}
+                  onMouseLeave={e => e.target.style.color = 'rgba(249,247,243,0.55)'}
+                >{s.l}</a>
+              </div>
+            ))}
           </div>
         </div>
 
         <div style={{
-          marginTop: 48, paddingTop: 24,
-          borderTop: '1px solid rgba(255,255,255,0.06)',
+          marginTop: 56, paddingTop: 24, borderTop: '1px solid rgba(249,247,243,0.08)',
           display: 'flex', justifyContent: 'space-between',
-          color: 'rgba(251,249,246,0.25)', fontSize: 12, flexWrap: 'wrap', gap: 8,
+          fontSize: 11, color: 'rgba(249,247,243,0.2)', flexWrap: 'wrap', gap: 8,
         }}>
           <span>© {new Date().getFullYear()} Dust Bunnies Cleaning Co.</span>
           <span>Sunshine Coast, Queensland</span>
@@ -784,11 +665,10 @@ export default function Website() {
       <Nav onQuote={goToQuote} />
       <Hero onQuote={goToQuote} />
       <Services onQuote={goToQuote} />
-      <HowItWorks />
-      <About />
+      <Statement />
       <Reviews />
       <Areas />
-      <FAQ />
+      <FAQ onQuote={goToQuote} />
       <CTA onQuote={goToQuote} />
       <Footer />
     </div>
